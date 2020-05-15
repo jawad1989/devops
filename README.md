@@ -3,7 +3,7 @@ roadmap to devops
 
 # Table of Contents
 1. Bash
-   * One Liner Commands
+   * [One Liner Commands](https://github.com/jawad1989/devops/blob/master/bash/one-liners/)
    * Installing Packages i.e. (Java,MVN,GIT etc)
    
 2. Jenkins
