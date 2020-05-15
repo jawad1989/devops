@@ -2,12 +2,15 @@
 roadmap to devops
 
 # Table of Contents
-
-1 Jenkins
-  
+1. Bash
+   * One Liner Commands
+   * Installing Packages i.e. (Java,MVN,GIT etc)
+   
+2. Jenkins
   * [Install Jenkins Master Server](https://github.com/jawad1989/devops/tree/master/Jenkins)
   * Pipelines and Jobs
     * Creating your first Pipeline - with apache Maven
+    * Creating Pipeline as Code - Jenkinsfile on Git
     * Free Style Job: Running Docker Containers
     * Free Style Job Running Java Code
     * How to Trigger a remote build in Jenkins
@@ -24,11 +27,54 @@ roadmap to devops
     * Deploy to container
     * Blue ocean
     * Pipeline Build View
-2. GitLab
-  * Configure Git on Ubuntu
-  * GitLab WebHooks
-  * GitLab Runners
+  * Updating Jenkins to Newer Version
+    
+3. GitLab
+    * Configure Git on Ubuntu
+    * GitLab WebHooks
+    * GitLab Runners
   
+4. Docker
+    * Creating a Volume 
+    * Sharing App on docker hub
+    * Run hello world Container
+    * Create a HTTPD Server
+    * Create Container and deploy Static Website
+    * Installing Jenkins as Service
+    * Installing Node.js on dockers
+    * Installing Tomcat on on Docker
+5. Kubernetes
+    * Create a deployment
+    * Minikube
+      * Install Minikube and Kubectl
+      * Launch Single Node Cluster
+      * Manage your Cluster
+      * Kuberets Dashboard
+      * Rolling Updates
+      * Scaling Your App
+6. Docker Swarm
+    * installing Service
+    * Adding Slave Nodes
+    * Installing Portainer for Docker Swarm Management
+7. Virtual Box
+    * install ubuntu from ISO
+    * Install ubuntu from VID
+    * Creating Static IP for VM
+    * Resizing a Harddish - Ubuntu Guest and Windows Host
+8. AWS Cloud
+    * Launching EC2
+    * Connectin EC2 with SSH and generating key pair
+9. Azure Cloud
+    * Creating Resource Group
+    * Create Virtual Network
+    * Create VPN Gateway
+    * Setup VPN Client
+    * Create a Private Network
+    * Create a Private NAS
+    * Creating VM - ubuntu
+    * Setup Public Load Balancer
+    * Setup Private Load Balancer
+    
 
 # Devops Project
 
