@@ -98,7 +98,7 @@ So for you have configured required database information on RDS. Let’s Jump ba
 ### ON EC2 Instance
 Edit sonar properties file to uncomment and provide required information for below properties. 
 
-- File Name: /opt/sonar/conf/sonar.properties
+- File Name: /opt/sonarqube/conf/sonar.properties
   - sonar.jdbc.username=`sonar`
   - sonar.jdbc.password=`sonar`
   - sonar.jdbc.url=jdbc:mysql://`<RDS_DATABAE_ENDPOINT>:3306`/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance&useSSL=false
@@ -107,8 +107,9 @@ Edit sonar properties file to uncomment and provide required information for bel
 
 Start SonarQube service 
 ```sh
-# cd /opt/sonar/bin/linux-x86-64/
-# ./sonar.sh start
+su - sonaradmin
+/opt/sonarqube/bin/linux-x86-64
+./sonar.sh start
 ```
 
 ##### Run SonarQube as a default service 
