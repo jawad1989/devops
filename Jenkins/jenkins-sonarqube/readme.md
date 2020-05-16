@@ -35,3 +35,11 @@ __GIT Repository URL__ :https://github.com/sivajavatechie/JenkinsWar.git
 ![Add Jenkins_job_a](https://github.com/jawad1989/devops/blob/master/projects/sonarqube-jenkins/sonat%20job-1.PNG)
 
 ![Add Jenkins_job_b](https://github.com/jawad1989/devops/blob/master/projects/sonarqube-jenkins/sonat%20job-2.PNG)
+
+
+
+### Verify Code analyzed by SonarQube in browser
+
+![Add Jenkins_job_b](https://github.com/jawad1989/devops/blob/master/projects/sonarqube-jenkins/4%20-%20sonar.PNG)
+
+![Add Jenkins_job_b](https://github.com/jawad1989/devops/blob/master/projects/sonarqube-jenkins/5%20-%20sonar.PNG)
