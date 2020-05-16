@@ -30,3 +30,12 @@ ln -s /usr/local/pgsql/bin/psql /usr/bin/psql
 # psql --version
 ```
 psql (PostgreSQL) 11.5
+
+
+### Starting Postgress
+```
+/sbin/service postgresql status
+/sbin/service postgresql initd
+/sbin/service postgresql start
+/sbin/service postgresql statu
+```
