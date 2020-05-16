@@ -9,3 +9,7 @@ vim index.html
 nano index.html
 ```
 
+Check Linux Version
+```
+cat /etc/system-release
+```
