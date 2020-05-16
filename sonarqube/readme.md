@@ -3,7 +3,7 @@
 sudo apt install openjdk-8-jdk
 ```
 
-2. Postgres Installation\
+2. Postgres Installation
 ```
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
 
