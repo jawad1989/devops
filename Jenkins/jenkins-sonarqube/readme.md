@@ -30,3 +30,8 @@ Goto __ManageJenkins->ConfigureSystem__ and add the sonarqube serve details plus
 
 
 ### Create a Job
+
+__GIT Repository URL__ :https://github.com/sivajavatechie/JenkinsWar.git
+![Add Jenkins_job_a](https://github.com/jawad1989/devops/blob/master/projects/sonarqube-jenkins/sonat%20job-1.PNG)
+
+![Add Jenkins_job_b](https://github.com/jawad1989/devops/blob/master/projects/sonarqube-jenkins/sonat%20job-2.PNG)
