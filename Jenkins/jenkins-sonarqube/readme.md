@@ -1,8 +1,10 @@
-# Pre Reqs
+## Pre Reqs
 * install Jenkins
 * Install SonarQube
 
-# Integration Steps
+## install plugins
 Once logged in make sure install below plugins
 * SonarQube Scanner
 * Deploy to Container
+
+
