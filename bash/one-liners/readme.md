@@ -44,3 +44,44 @@ chkconfig service on
 chkconfig httpd off
 chkconfig ntpd on
 ```
+
+## Docker
+
+
+finding image	
+```
+docker search redis
+```
+
+Get Port	
+```
+docker port redisDynamic 6379
+```
+Dynamic Port	
+```
+docker run -d --name redisDynamic -p 6379 redis:latest
+```
+Adding volum to image	
+```
+docker run -d --name redisMapped -v /opt/docker/data/redis:/data redis
+```
+
+Build Dockerfile to Image	
+```
+docker build -t webserver-image:v1 
+```
+
+Run docker container	
+```
+docker run -d -p 80:80 webserver-image:v1
+```
+
+run docker container	
+```
+docker run -d -p 80:80 <image-id|friendly-tag-name>
+```
+
+Build Dockerfile to Image	
+```
+docker build -t my-nginx-image:latest .
+```
