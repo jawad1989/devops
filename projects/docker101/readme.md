@@ -5,6 +5,10 @@
 
 ## Pre Reqs
 * [Installing Docker Enginer](https://docs.docker.com/engine/install/) See the official docker website for installing docker
+* If you are running docker from a non root user, you shpuld add your user to `docker` group with below command:
+```
+sudo usermod -aG docker your-user
+```
 
 ## Check Your Enviornment
 *  List Version of Docker ```docker --version```
@@ -41,5 +45,37 @@ docker ps
 The best feature of docker is you can download and use 1000's of pre built images available to you with a single command e.g. wordrpress, ubuntu, jenkins, node.js etc.
 we will use some of the images and run them to get you started:
 
-### 1. Running wordpress image
+### 1. Running HTTPD Server
+
+```
+docker run --name apache -p 8080:80 httpd:2.4
+
+or 
+
+docker run -d --name apache2 -p 8082:80 httpd:2.4
+```
+
+To get more info about a container
+```
+docker logs apache2
+docker stats apache2
+```
+
+__ go in your container and playing with it __
+
+In the container, we'll be root right off and be sitting in the /usr/local/apache2 directory. Run a quick ls to see what's here, and then cd htdocs to get into where the website's index.html page is.
+
+```
+docker exec -it apache2 bash
+cd htdocs/
+touch jawad.html
+echo 'hello jawad how are you?' > jawad.html
+exit
+```
+
+now if you will goto 'localhost:8082/jawad.html' you will see the new file  
+## 2. Running wWrdpress image
+
+You can read about wordpress image at [Docker Hub - Wordress](https://hub.docker.com/_/wordpress)
+
 
