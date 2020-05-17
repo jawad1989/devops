@@ -107,4 +107,6 @@ Repository is placed at Gitlab, when a Jenkins Job runs it clones the repo from 
 
 * [Installing SonarQube](https://github.com/jawad1989/devops/tree/master/sonarqube)
 
+* [Installing Docker Enginer with Tomcat](https://github.com/jawad1989/devops/tree/master/projects/tomcat-docker)
+
 * [Integrating Sonarqube with Jenkins](https://github.com/jawad1989/devops/tree/master/Jenkins/jenkins-sonarqube)
