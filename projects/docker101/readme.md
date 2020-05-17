@@ -1,4 +1,4 @@
-# Introdcution to Docker 
+# Introduction to Docker 
 
 ## What is a Container
 * [What is Container](https://www.docker.com/resources/what-container)
@@ -61,9 +61,9 @@ docker logs apache2
 docker stats apache2
 ```
 
-__ go in your container and playing with it __
+**go in your container and start playing with it**
 
-In the container, we'll be root right off and be sitting in the /usr/local/apache2 directory. Run a quick ls to see what's here, and then cd htdocs to get into where the website's index.html page is.
+In the container, we'll be root right off and be sitting in the `/usr/local/apache2 directory`. Run a quick `ls` to see what's here, and then cd htdocs to get into where the website's index.html page is.
 
 ```
 docker exec -it apache2 bash
@@ -73,8 +73,44 @@ echo 'hello jawad how are you?' > jawad.html
 exit
 ```
 
-now if you will goto 'localhost:8082/jawad.html' you will see the new file  
-## 2. Running wWrdpress image
+now if you will goto `localhost:8082/jawad.html` you will see the new file.
+
+
+## 2. Running a static HTML website in docker
+
+lets say we have a directory `mySite` and it has two files one `HTML` other `CSS` and we want to run them on a webserver i.e. `nginx`:
+
+```
+jawad@DockerLab:~/images/mySite$ ls
+  index.html  mystyle.css
+jawad@DockerLab:~/images/mySite$ pwd
+/home/jawad/images/mySite
+```
+
+Create your docker file for building your image, first line defines the base image and second one copies our content of current directory to a particular directory
+
+```
+gedit Dockerfile
+
+FROM nginx:alpine
+COPY . /usr/share/nginx/html
+```
+
+build the image and name it `webserver-image:v1`
+
+```
+docker build -t webserver-image:v1 .
+docker images
+```
+
+run the docker container using our image 
+```
+docker run -d -p 8084:80 webserver-image:v1
+```
+
+you will see your static website up and running at `http://locahost:8084`
+
+## 2. Running Wordpress image
 
 You can read about wordpress image at [Docker Hub - Wordress](https://hub.docker.com/_/wordpress)
 
