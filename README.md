@@ -87,3 +87,24 @@ Create a web hook in GITLAB, once code is pushed by developer it will run a Jenk
 3. Jenkins
 4. Docker Engine
 5. Docker Hub
+
+## 2. SonarQube Integration with Jenkins and Gitlab
+Repository is placed at Gitlab, when a Jenkins Job runs it clones the repo from Gitlab, analayzed the code using SonarQube, cleans,runs and packages the maven project and deploys the code at Tomcat Server running on docker
+
+**Techs Used**
+
+* Jenkins
+* SonarQube
+* PostGress Database
+* Gitlab
+* Tomcat
+* Docker
+* AWS EC2
+
+**Steps**
+
+* [Installing PostGress](https://github.com/jawad1989/devops/tree/master/aws/postgress-install)
+
+* [Installing SonarQube](https://github.com/jawad1989/devops/tree/master/sonarqube)
+
+* [Integrating Sonarqube with Jenkins](https://github.com/jawad1989/devops/tree/master/Jenkins/jenkins-sonarqube)
