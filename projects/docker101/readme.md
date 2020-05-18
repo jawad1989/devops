@@ -161,7 +161,43 @@ docker cp config.conf dataContainer:/config/
 docker run --volumes-from dataContainer ubuntu ls /config
 ```
 
-## 5. Docker Volumes
+## 5. Managing Data in Docker
+
+By default all files created inside a container are stored on a writable container layer. This means that:
+
+The data doesn’t persist when that container no longer exists, and it can be difficult to get the data out of the container if another process needs it.
+A container’s writable layer is tightly coupled to the host machine where the container is running. You can’t easily move the data somewhere else.
+
+Writing into a container’s writable layer requires a storage driver to manage the filesystem. The storage driver provides a union filesystem, using the Linux kernel. This extra abstraction reduces performance as compared to using data volumes, which write directly to the host filesystem.
+
+Docker has two options for containers to store files in the host machine, so that the files are persisted even after the container stops: volumes, and bind mounts. If you’re running Docker on Linux you can also use a tmpfs mount. If you’re running Docker on Windows you can also use a named pipe.
+
+Volumes are stored in a part of the host filesystem which is managed by Docker (/var/lib/docker/volumes/ on Linux). Non-Docker processes should not modify this part of the filesystem. Volumes are the best way to persist data in Docker.
+
+Bind mounts may be stored anywhere on the host system. They may even be important system files or directories. Non-Docker processes on the Docker host or a Docker container can modify them at any time.
+
+tmpfs mounts are stored in the host system’s memory only, and are never written to the host system’s filesystem.
+
+### Docker Bind Mounts
+Bind mounts have been around since the early days of Docker. Bind mounts have limited functionality compared to volumes. When you use a bind mount, a file or directory on the host machine is mounted into a container. The file or directory is referenced by its full or relative path on the host machine. By contrast, when you use a volume, a new directory is created within Docker’s storage directory on the host machine, and Docker manages that directory’s contents.
+```
+docker run -d \
+  -it \
+  --name devtest \
+  --mount type=bind,source="$(pwd)"/target,target=/app \
+  nginx:latest
+```
+### Docker tmpds
+
+```
+$ docker run -d \
+  -it \
+  --name tmptest \
+  --mount type=tmpfs,destination=/app \
+  nginx:latest
+
+```
+### Docker Volumes
 
 Docker volumes are used to persist data from within a Docker container. There are a few different types of Docker volumes: host, anonymous, and, named. Knowing what the difference is and when to use each type can be difficult, but hopefully, I can ease that pain here.
 
@@ -228,9 +264,106 @@ docker container cp index.html myBusyBox1:/app/devops/
 connect to 2nd container to see the file if created, you can sh the container and see the file and folder there
 
 
+## 6. Docker Networking
+Docker’s networking subsystem is pluggable, using drivers. Several drivers exist by default, and provide core networking functionality:
+
+* **User-defined bridge networks** are best when you need multiple containers to communicate on the same Docker host.
+* **Host networks** are best when the network stack should not be isolated from the Docker host, but you want other aspects of the container to be isolated.
+* **Overlay networks** are best when you need containers running on different Docker hosts to communicate, or when multiple applications work together using swarm services.
+* **Macvlan networks** are best when you are migrating from a VM setup or need your containers to look like physical hosts on your network, each with a unique MAC address.
+* **Third-party network plugins** allow you to integrate Docker with specialized network stacks.
+
+### Overlay Network
+
+The overlay network driver creates a distributed network among multiple Docker daemon hosts. This network sits on top of (overlays) the host-specific networks, allowing containers connected to it (including swarm service containers) to communicate securely when encryption is enabled. Docker transparently handles routing of each packet to and from the correct Docker daemon host and the correct destination container.
+
+[Overlay Network Guide](https://docs.docker.com/network/network-tutorial-overlay/)
+
+### Host Networking
+
+If you use the host network mode for a container, that container’s network stack is not isolated from the Docker host (the container shares the host’s networking namespace), and the container does not get its own IP-address allocated. For instance, if you run a container which binds to port 80 and you use host networking, the container’s application is available on port 80 on the host’s IP address.
+
+[Overlay Network Guide](https://docs.docker.com/network/network-tutorial-host/)
 
 
-## 6. Communicating between containers using links
+### Macvlan Networking
+
+Some applications, especially legacy applications or applications which monitor network traffic, expect to be directly connected to the physical network. In this type of situation, you can use the macvlan network driver to assign a MAC address to each container’s virtual network interface, making it appear to be a physical network interface directly connected to the physical network. In this case, you need to designate a physical interface on your Docker host to use for the macvlan, as well as the subnet and gateway of the macvlan
+
+[Overlay Network Guide](https://docs.docker.com/network/network-tutorial-macvlan/)
+
+### Bridge Network
+**Networking with standalone containers**
+* **Use the default bridge network** demonstrates how to use the default bridge network that Docker sets up for you automatically. This network is not the best choice for production systems.
+
+```
+docker network ls
+
+NETWORK ID          NAME                DRIVER              SCOPE
+17e324f45964        bridge              bridge              local
+6ed54d316334        host                host                local
+7092879f2cc8        none                null                local
+```
+
+run two containers 
+```
+$ docker run -dit --name alpine1 alpine ash
+
+$ docker run -dit --name alpine2 alpine ash
+```
+inspect the `bridge` network you will see both containers there
+```
+docker network inspect bridge
+```
+
+Use the `docker attach` command to connect to `alpine1`
+if you will ping `google.com`, if you will ping ip of `alpine2` you will be successful but if you will ping hostname of `alpine2` it will fail
+```
+docker attach alpine`
+ip addr show
+ping c -2 google.com
+ping c -2 172.17.0.3
+ping c -2 alpine2
+```
+
+* **Use user-defined bridge networks** shows how to create and use your own custom bridge networks, to connect containers running on the same Docker host. This is recommended for standalone containers running in production.
+
+```
+docker network create --driver bridge alpine-net
+docker network ls
+
+NETWORK ID          NAME                DRIVER              SCOPE
+e9261a8c9a19        alpine-net          bridge              local
+17e324f45964        bridge              bridge              local
+6ed54d316334        host                host                local
+7092879f2cc8        none                null                local
+
+docker network inspect alpine-net
+
+docker network inspect bridge
+
+docker network inspect alpine-net
+```
+
+if you inspect the `alpine-net` network, you wont see any container here, you have to add the containers to network, once you have added the conainers, you will be able to ping them by ip and hostname, once you run the last command you will see you can not ping hostname of `alpine3` but all other in network `alpine2,4`:
+
+we will add `alpine 1,2,4` to `alpine-net` network and `alpine3` to default bridhe network
+```
+$ docker run -dit --name alpine1 --network alpine-net alpine ash
+
+$ docker run -dit --name alpine2 --network alpine-net alpine ash
+
+$ docker run -dit --name alpine3 alpine ash
+
+$ docker run -dit --name alpine4 --network alpine-net alpine ash
+
+$ docker network connect bridge alpine4
+
+docker container attach alpine1
+```
+
+
+### Communicating between containers using links
 This scenario explores how to allow multiple containers to communicate with each other. The steps will explain how to connect a data-store, in this case, Redis, to an application running in a separate container.
 
 ```
@@ -327,4 +460,10 @@ docker volume rm <volume_name>
 remove all volumes at once
 ```
 docker volume prune
+```
+
+Docker stats:
+You can use the docker stats command to live stream a container’s runtime metrics. The command supports CPU, memory usage, memory limit, and network IO metrics.
+```
+docker stats redis1 redis2
 ```
