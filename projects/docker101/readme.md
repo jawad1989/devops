@@ -142,8 +142,132 @@ COPY . .
 
 You can read about wordpress image at [Docker Hub - Wordress](https://hub.docker.com/_/wordpress)
 
+## 3. Creating Tomcat server in Docker Container
 
-### Share your images on Docker Hub
+[Tomcat server as service](https://github.com/jawad1989/devops/tree/master/projects/tomcat-docker)
+
+## 4. Data Containers
+
+Data containers are containers whose sole responsibility is to be a place to store/manage data.
+Like other containers they are managed by the host system. However, they don't run when you perform a docker ps command.
+
+To create a Data Container we first create a container with a well-known name for future reference. We use busybox as the base as it's small and lightweight in case we want to explore and move the container to another host.
+
+When creating the container, we also provide a -v option to define where other containers will be reading/saving data.
+
+```
+docker create -v /config --name dataContainer busybox
+docker cp config.conf dataContainer:/config/
+docker run --volumes-from dataContainer ubuntu ls /config
+```
+
+## 5. Docker Volumes
+
+Docker volumes are used to persist data from within a Docker container. There are a few different types of Docker volumes: host, anonymous, and, named. Knowing what the difference is and when to use each type can be difficult, but hopefully, I can ease that pain here.
+
+* Host Volumes
+A host volume can be accessed from within a Docker container and is stored on the host, as per the name. To create a host volume, run:
+```
+docker run -v /path/on/host:/path/in/container
+```
+
+* Anonymous Volumes
+The location of anonymous volumes is managed by Docker. Note that it can be difficult to refer to the same volume when it is anonymous. To create an anonymous volume, run:
+```
+docker run -v /path/in/cntainer ...
+```
+
+* Named Volumes
+Named volumes and anonymous volumes are similar in that Docker manages where they are located. However, as you might guess, named volumes can be referred to by specific names. To create a named volume, run:
+```
+docker volume create somevolume
+docker run -v name:/path/in/container
+```
+
+### Example:  Create a volume on host and place a static website, bind that volume with nginx and run the contianer using below command
+
+Static Website at host: /images/mySite
+Volume at VM: /usr/share/nginx/html
+container Name: siteUsingVol
+Image Name: nginx
+
+```
+docker run --name:siteUsingVol -d -v /images/mySite:/usr/share/nginx/html -p 5000:80 nginx
+```
+
+Now put any index.html in `/images/mySite` at host and you can see the file in VM `localhost:5000/`
+
+### Copying files between containers from a shared volume
+
+Creating volume
+```
+docker volume create devops_volume
+docker volume ls
+```
+
+Creating container with the volume attached to them
+docker container create --name <container_name> -it --mount source<volume_name>,target=/<folder_Name> <image_name>
+
+```
+docker container create --name myBusyBox1 -it --mount source=devops_volume,target=/app busybox
+docker container create --name myBusyBox2 -it --mount source=devops_volume,target=/app busybox
+```
+
+copying files between containers from a shared volume
+```
+docker exec -it myBusyBox1 sh
+cd /app
+mkdir devops
+exit
+```
+copy a file frm host to myBusyBox1
+```
+docker container cp index.html myBusyBox1:/app/devops/
+```
+
+connect to 2nd container to see the file if created, you can sh the container and see the file and folder there
+
+
+
+
+## 6. Communicating between containers using links
+This scenario explores how to allow multiple containers to communicate with each other. The steps will explain how to connect a data-store, in this case, Redis, to an application running in a separate container.
+
+```
+docker run -d --name redis-server redis
+```
+In this example, we bring up a Alpine container which is linked to our redis-server. We've defined the alias as redis. When a link is created, Docker will do two things.
+
+First, Docker will set some environment variables based on the linked to the container. These environment variables give you a way to reference information such as Ports and IP addresses via known names.
+
+You can output all the environment variables with the env command. For example:
+
+```
+docker run --link redis-server:redis alpine env
+```
+Secondly, Docker will update the HOSTS file of the container with an entry for our source container with three names, the original, the alias and the hash-id. You can output the containers host entry using cat /etc/hosts
+```
+docker run --link redis-server:redis alpine cat /etc/hosts
+```
+we can ping the source container
+```
+docker run --link redis-server:redis alpine ping -c 1 redis
+```
+
+Example app
+```
+docker run -d -p 3000:3000 --link redis-server:redis katacode/redis-note-docker-example
+curl docker:3000
+```
+
+Connet to redis cli
+```
+docker run -it --link redis-server:redis redis redis-cli -h redis
+KEYS *
+QUIT
+```
+
+## 6. Share your images on Docker Hub
 
 This step helps you in developing a containerized application is to share your images on a registry like Docker Hub, so they can be easily downloaded and run on any destination machine
 
@@ -172,7 +296,7 @@ You can pull using below command in any of your enviornment:
 
 
 
-## Useful Commands
+## 7. Useful Commands
 
 interactive shell contianer using image
 ```
@@ -188,4 +312,19 @@ if you want to see how the image was build, meaning the steps in its Dockerfile,
 
 ```
 docker image history --no-trunc image_name > image_history
+```
+
+Remove all containers
+```
+docker rm –f $(docker ps -aq)
+```
+
+remove volume
+```
+docker volume rm <volume_name>
+```
+
+remove all volumes at once
+```
+docker volume prune
 ```
