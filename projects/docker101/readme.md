@@ -1,9 +1,9 @@
-# Introduction to Docker 
+# 1. Introduction to Docker 
 
 ## What is a Container
 * [What is Container](https://www.docker.com/resources/what-container)
 
-## Pre Reqs
+##  Pre Reqs
 * [Installing Docker Enginer](https://docs.docker.com/engine/install/) See the official docker website for installing docker
 * If you are running docker from a non root user, you shpuld add your user to `docker` group with below command:
 ```
@@ -14,7 +14,7 @@ sudo usermod -aG docker your-user
 *  List Version of Docker ```docker --version```
 Docker version 19.03.5, build 633a0ea
 
-## Running Hello World Container
+# 2. Running Hello World Container
 
 1. Testing that our installation was successful by running Docker Hello-World Image from docker hub.
 
@@ -40,7 +40,7 @@ docker ps
   54f4984ed6a8     hello-world     "/hello"     20 seconds ago     Exited (0) 19 seconds ago
 ```
 
-## Docker File 
+# 3. Docker File 
 
 Docker builds images automatically by reading the instructions from a Dockerfile -- a text file that contains all commands, in order, needed to build a given image. A Dockerfile adheres to a specific format and set of instructions which you can find at Dockerfile reference.
 
@@ -58,19 +58,20 @@ FROM creates a layer from the ubuntu:18.04 Docker image.
 COPY adds files from your Docker client’s current directory.
 RUN builds your application with make.
 CMD specifies what command to run within the container.
-## Docker Hub and running Pre built images
+
+# 4. Docker Hub and running Pre built images
 
 The best feature of docker is you can download and use 1000's of pre built images available to you with a single command e.g. wordrpress, ubuntu, jenkins, node.js etc.
 we will use some of the images and run them to get you started:
 
 
-### Docker Multi Stage Builds
+### 4.1. Docker Multi Stage Builds
 
 With multi-stage builds, you use multiple FROM statements in your Dockerfile. Each FROM instruction can use a different base, and each of them begins a new stage of the build. You can selectively copy artifacts from one stage to another, leaving behind everything you don’t want in the final image. To show how this works, let’s adapt the Dockerfile from the previous section to use multi-stage builds
-#### 1. Example two Mvn
+#### 4.1.a. Example two Mvn
 [MVN example Multi Stage Build](https://www.youtube.com/watch?v=U9p8zrYxsZw&list=PL8byALqxKKoK8Yi8lrC9J15MJ-Pye3tMb&index=8&t=0s)
 [Another Example](https://www.youtube.com/watch?v=gdoXtFpXvik&list=PL8byALqxKKoK8Yi8lrC9J15MJ-Pye3tMb&index=3&t=0s)
-#### 2. Example two Go Lang
+#### 4.1.b. Example two Go Lang
 `Dockerfile:`
 ```
 FROM golang:alpine
