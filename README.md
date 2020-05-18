@@ -33,6 +33,9 @@ roadmap to devops
     * Configure Git on Ubuntu
     * GitLab WebHooks
     * GitLab Runners
+    * GIT
+       * Branching
+       * Stash
   
 4. Docker
     * Creating a Volume 
@@ -74,6 +77,7 @@ roadmap to devops
     * Creating VM - ubuntu
     * Setup Public Load Balancer
     * Setup Private Load Balancer
+ 
     
 
 # Devops Project
