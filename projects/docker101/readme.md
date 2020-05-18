@@ -1,5 +1,5 @@
 # Table of Contents
-1. Introduction to Docker
+1. [Introduction to Docker](#1-introduction-to-docker)
 	* [What is container](#1-introduction-to-docker)
 	* [Pre Reqs](#pre-reqs)
 	* [Check your Enviornment](#check-your-enviornment)
@@ -8,29 +8,29 @@
 4. [Docker Multi Stage Buids](4-docker-multi-stage-builds)
 	* [Example one using Maven](#41a-example-one-mvn)
 	* [Example two using Go Lang](#41b-example-two-go-lang)
-5. Docker Hub and running Pre Built Images
-	* Running HTTPD Server
-	*  Running Static website
-	* Deploying Node.js Application
-	* Creating a Tommcat Server
-6. Data Containers
-7. Managin Data in Docker
-	* Docker Bind Mounts
-	* Docker tmpds
-	* Docker Volumes
-		* Creating Vol and binding with a directory on host
-		* Shared Volumes between containers
-8. Docker Networking
-	* Overlay Networking
-	* Host Networking
-	* Macvlan Networking
-	* Bridge Networking
+5. [Docker Hub and running Pre Built Images](#5-docker-hub-and-running-pre-built-images)
+	* [Running HTTPD Server](#5-docker-hub-and-running-pre-built-images)
+	* [Running Static website](#5-docker-hub-and-running-pre-built-images)
+	* [Deploying Node.js Application](#5-docker-hub-and-running-pre-built-images)
+	* [Creating a To](#5-docker-hub-and-running-pre-built-images)
+6. [Data Containers](#6-data-containers)
+7. [Managin Data in Docker](#7-managing-data-in-docker)
+	* [Docker Bind Mounts](#1-docker-bind-mounts)
+	* [Docker tmpds](#2-docker-tmpds)
+	* [Docker Volumes](#3-docker-volumes)
+		* [Creating Vol and binding with a directory on host](#1-example--create-a-volume-on-host-and-place-a-static-website-bind-that-volume-with-nginx-and-run-the-contianer-using-below-command)
+		* [Shared Volumes between containers](#2-copying-files-between-containers-from-a-shared-volume)
+8. [Docker Networking](#8-docker-networking)
+	* [Overlay Networking](#1-overlay-network)
+	* [Host Networking](#2-host-networking)
+	* [Macvlan Networking](#3-macvlan-networking)
+	* [Bridge Networking](#4-bridge-network)
 		* Use default Bridge Network
 		* Use user-defined Bridge Network
-		* Communicating between containers using Links
+		* [Communicating between containers using Links](#communicating-between-containers-using-links)
 
-9. Sharing Images on Docker Hub
-10. Useful commands
+9. [Sharing Images on Docker Hub](#9-share-your-images-on-docker-hub)
+10. [Useful commands](#10-useful-commands)
 	
 # 1. Introduction to Docker 
 
@@ -431,7 +431,8 @@ Some applications, especially legacy applications or applications which monitor 
 
 ### 4. Bridge Network
 **Networking with standalone containers**
-* **Use the default bridge network** demonstrates how to use the default bridge network that Docker sets up for you automatically. This network is not the best choice for production systems.
+#### Use the default bridge network
+demonstrates how to use the default bridge network that Docker sets up for you automatically. This network is not the best choice for production systems.
 
 ```
 docker network ls
@@ -463,7 +464,8 @@ ping c -2 172.17.0.3
 ping c -2 alpine2
 ```
 
-* **Use user-defined bridge networks** shows how to create and use your own custom bridge networks, to connect containers running on the same Docker host. This is recommended for standalone containers running in production.
+#### Use user-defined bridge networks
+shows how to create and use your own custom bridge networks, to connect containers running on the same Docker host. This is recommended for standalone containers running in production.
 
 ```
 docker network create --driver bridge alpine-net
