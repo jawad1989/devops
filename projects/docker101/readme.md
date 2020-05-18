@@ -1,3 +1,37 @@
+# Table of Contents
+1. Introduction to Docker
+	* What is container
+	* Pre Reqs
+	* Check your Enviornment
+2. Running Hello World Container
+3. Dockerfile
+4. Docker Multi Stage Buids
+	* Example one using Maven
+	* Example two using Go Lang
+5. Docker Hub and running Pre Built Images
+	1. Running HTTPD Server
+	2. Running Static website
+	3. Deploying Node.js Application
+	4. Creating a Tommcat Server
+6. Data Containers
+7. Managin Data in Docker
+	1. Docker Bind Mounts
+	2. Docker tmpds
+	3. Docker Volumes
+		* Creating Vol and binding with a directory on host
+		* Shared Volumes between containers
+8. Docker Networking
+	1. Overlay Networking
+	2. Host Networking
+	3. Macvlan Networking
+	4. Bridge Networking
+		* Use default Bridge Network
+		* Use user-defined Bridge Network
+		* Communicating between containers using Links
+
+9. Sharing Images on Docker Hub
+10. Useful commands
+	
 # 1. Introduction to Docker 
 
 ## What is a Container
@@ -62,7 +96,7 @@ CMD specifies what command to run within the container.
 # 4 Docker Multi Stage Builds
 
 With multi-stage builds, you use multiple FROM statements in your Dockerfile. Each FROM instruction can use a different base, and each of them begins a new stage of the build. You can selectively copy artifacts from one stage to another, leaving behind everything you don’t want in the final image. To show how this works, let’s adapt the Dockerfile from the previous section to use multi-stage builds
-#### 4.1.a. Example two Mvn
+#### 4.1.a. Example one Mvn
 [MVN example Multi Stage Build](https://www.youtube.com/watch?v=U9p8zrYxsZw&list=PL8byALqxKKoK8Yi8lrC9J15MJ-Pye3tMb&index=8&t=0s)
 [Another Example](https://www.youtube.com/watch?v=gdoXtFpXvik&list=PL8byALqxKKoK8Yi8lrC9J15MJ-Pye3tMb&index=3&t=0s)
 
