@@ -1,8 +1,8 @@
 # Table of Contents
 1. Introduction to Docker
 
-	[What is container](https://github.com/jawad1989/devops/edit/master/projects/docker101/readme.md#What is a Container)
-	* Pre Reqs
+	* [What is container](#What is a Container)
+	*  [Pre Reqs](#Pre Reqs)
 	* Check your Enviornment
 2. Running Hello World Container
 3. Dockerfile
