@@ -1,9 +1,7 @@
 # Table of Contents
 1. Introduction to Docker
-
-	[What is container](#what is a container)
-	
-	[Pre Reqs](#Pre Reqs)
+	* [What is container](#1-introduction-to-docker)
+	* [Pre Reqs](#Pre Reqs)
 	* Check your Enviornment
 2. Running Hello World Container
 3. [Dockerfile](#3-dockerfile)
