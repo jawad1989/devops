@@ -6,7 +6,7 @@
 	[Pre Reqs](#Pre Reqs)
 	* Check your Enviornment
 2. Running Hello World Container
-3. [Dockerfile](#Dockerfile)
+3. [Dockerfile](#3-dockerfile)
 4. Docker Multi Stage Buids
 	* Example one using Maven
 	* Example two using Go Lang
