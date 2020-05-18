@@ -1,13 +1,13 @@
 # Table of Contents
 1. Introduction to Docker
 	* [What is container](#1-introduction-to-docker)
-	* [Pre Reqs](#Pre Reqs)
-	* Check your Enviornment
-2. Running Hello World Container
+	* [Pre Reqs](#pre-reqs)
+	* [Check your Enviornment](#check-your-enviornment)
+2. [Running Hello World Container](#2-running-hello-world-container)
 3. [Dockerfile](#3-dockerfile)
-4. Docker Multi Stage Buids
-	* Example one using Maven
-	* Example two using Go Lang
+4. [Docker Multi Stage Buids](4-docker-multi-stage-builds)
+	* [Example one using Maven](#41a-example-one-mvn)
+	* [Example two using Go Lang](#41b-example-two-go-lang)
 5. Docker Hub and running Pre Built Images
 	* Running HTTPD Server
 	*  Running Static website
