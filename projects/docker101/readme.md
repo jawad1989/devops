@@ -9,22 +9,22 @@
 	* Example one using Maven
 	* Example two using Go Lang
 5. Docker Hub and running Pre Built Images
-	1. Running HTTPD Server
-	2. Running Static website
-	3. Deploying Node.js Application
-	4. Creating a Tommcat Server
+	* Running HTTPD Server
+	*  Running Static website
+	* Deploying Node.js Application
+	* Creating a Tommcat Server
 6. Data Containers
 7. Managin Data in Docker
-	1. Docker Bind Mounts
-	2. Docker tmpds
-	3. Docker Volumes
+	* Docker Bind Mounts
+	* Docker tmpds
+	* Docker Volumes
 		* Creating Vol and binding with a directory on host
 		* Shared Volumes between containers
 8. Docker Networking
-	1. Overlay Networking
-	2. Host Networking
-	3. Macvlan Networking
-	4. Bridge Networking
+	* Overlay Networking
+	* Host Networking
+	* Macvlan Networking
+	* Bridge Networking
 		* Use default Bridge Network
 		* Use user-defined Bridge Network
 		* Communicating between containers using Links
