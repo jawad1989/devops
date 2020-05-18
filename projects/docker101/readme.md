@@ -59,18 +59,13 @@ COPY adds files from your Docker client’s current directory.
 RUN builds your application with make.
 CMD specifies what command to run within the container.
 
-# 4. Docker Hub and running Pre built images
-
-The best feature of docker is you can download and use 1000's of pre built images available to you with a single command e.g. wordrpress, ubuntu, jenkins, node.js etc.
-we will use some of the images and run them to get you started:
-
-
-### 4.1. Docker Multi Stage Builds
+# 4 Docker Multi Stage Builds
 
 With multi-stage builds, you use multiple FROM statements in your Dockerfile. Each FROM instruction can use a different base, and each of them begins a new stage of the build. You can selectively copy artifacts from one stage to another, leaving behind everything you don’t want in the final image. To show how this works, let’s adapt the Dockerfile from the previous section to use multi-stage builds
 #### 4.1.a. Example two Mvn
 [MVN example Multi Stage Build](https://www.youtube.com/watch?v=U9p8zrYxsZw&list=PL8byALqxKKoK8Yi8lrC9J15MJ-Pye3tMb&index=8&t=0s)
 [Another Example](https://www.youtube.com/watch?v=gdoXtFpXvik&list=PL8byALqxKKoK8Yi8lrC9J15MJ-Pye3tMb&index=3&t=0s)
+
 #### 4.1.b. Example two Go Lang
 `Dockerfile:`
 ```
@@ -148,6 +143,11 @@ REPOSITORY          TAG                 IMAGE ID            CREATED             
 webserver           latest              e5d26b3f6a60        53 seconds ago      13.1MB
 <none>              <none>              c81abb7b536c        56 seconds ago      377MB
 ```
+# 5. Docker Hub and running Pre built images
+
+The best feature of docker is you can download and use 1000's of pre built images available to you with a single command e.g. wordrpress, ubuntu, jenkins, node.js etc.
+we will use some of the images and run them to get you started:
+
 ### 1. Running HTTPD Server
 
 ```
@@ -179,7 +179,7 @@ exit
 now if you will goto `localhost:8082/jawad.html` you will see the new file.
 
 
-## 2. Running a static website in docker
+### 2. Running a static website in docker
 
 lets say we have a directory `mySite` and it has two files one `HTML` other `CSS` and we want to run them on a webserver i.e. `nginx`:
 
@@ -213,7 +213,7 @@ docker run -d -p 8084:80 webserver-image:v1
 
 you will see your static website up and running at `http://locahost:8084`
 
-## 2. Deploying Node.js Application
+### 3. Deploying Node.js Application
 
 For complete details and steps goto [Docker Docks - Building a Node js App](https://docs.docker.com/get-started/part2/)
 
@@ -245,11 +245,11 @@ COPY . .
 
 You can read about wordpress image at [Docker Hub - Wordress](https://hub.docker.com/_/wordpress)
 
-## 3. Creating Tomcat server in Docker Container
+### 4. Creating Tomcat server in Docker Container
 
 [Tomcat server as service](https://github.com/jawad1989/devops/tree/master/projects/tomcat-docker)
 
-## 4. Data Containers
+# 6. Data Containers
 
 Data containers are containers whose sole responsibility is to be a place to store/manage data.
 Like other containers they are managed by the host system. However, they don't run when you perform a docker ps command.
@@ -264,7 +264,7 @@ docker cp config.conf dataContainer:/config/
 docker run --volumes-from dataContainer ubuntu ls /config
 ```
 
-## 5. Managing Data in Docker
+# 7. Managing Data in Docker
 
 By default all files created inside a container are stored on a writable container layer. This means that:
 
@@ -281,7 +281,7 @@ Bind mounts may be stored anywhere on the host system. They may even be importan
 
 tmpfs mounts are stored in the host system’s memory only, and are never written to the host system’s filesystem.
 
-### Docker Bind Mounts
+### 1. Docker Bind Mounts
 Bind mounts have been around since the early days of Docker. Bind mounts have limited functionality compared to volumes. When you use a bind mount, a file or directory on the host machine is mounted into a container. The file or directory is referenced by its full or relative path on the host machine. By contrast, when you use a volume, a new directory is created within Docker’s storage directory on the host machine, and Docker manages that directory’s contents.
 ```
 docker run -d \
@@ -290,7 +290,7 @@ docker run -d \
   --mount type=bind,source="$(pwd)"/target,target=/app \
   nginx:latest
 ```
-### Docker tmpds
+### 2. Docker tmpds
 
 ```
 $ docker run -d \
@@ -300,7 +300,7 @@ $ docker run -d \
   nginx:latest
 
 ```
-### Docker Volumes
+### 3. Docker Volumes
 
 Docker volumes are used to persist data from within a Docker container. There are a few different types of Docker volumes: host, anonymous, and, named. Knowing what the difference is and when to use each type can be difficult, but hopefully, I can ease that pain here.
 
@@ -323,7 +323,7 @@ docker volume create somevolume
 docker run -v name:/path/in/container
 ```
 
-### Example:  Create a volume on host and place a static website, bind that volume with nginx and run the contianer using below command
+### 1. Example:  Create a volume on host and place a static website, bind that volume with nginx and run the contianer using below command
 
 Static Website at host: /images/mySite
 Volume at VM: /usr/share/nginx/html
@@ -336,7 +336,7 @@ docker run --name:siteUsingVol -d -v /images/mySite:/usr/share/nginx/html -p 500
 
 Now put any index.html in `/images/mySite` at host and you can see the file in VM `localhost:5000/`
 
-### Copying files between containers from a shared volume
+### 2. Copying files between containers from a shared volume
 
 Creating volume
 ```
@@ -367,7 +367,7 @@ docker container cp index.html myBusyBox1:/app/devops/
 connect to 2nd container to see the file if created, you can sh the container and see the file and folder there
 
 
-## 6. Docker Networking
+# 8. Docker Networking
 Docker’s networking subsystem is pluggable, using drivers. Several drivers exist by default, and provide core networking functionality:
 
 * **User-defined bridge networks** are best when you need multiple containers to communicate on the same Docker host.
@@ -376,26 +376,26 @@ Docker’s networking subsystem is pluggable, using drivers. Several drivers exi
 * **Macvlan networks** are best when you are migrating from a VM setup or need your containers to look like physical hosts on your network, each with a unique MAC address.
 * **Third-party network plugins** allow you to integrate Docker with specialized network stacks.
 
-### Overlay Network
+### 1. Overlay Network
 
 The overlay network driver creates a distributed network among multiple Docker daemon hosts. This network sits on top of (overlays) the host-specific networks, allowing containers connected to it (including swarm service containers) to communicate securely when encryption is enabled. Docker transparently handles routing of each packet to and from the correct Docker daemon host and the correct destination container.
 
 [Overlay Network Guide](https://docs.docker.com/network/network-tutorial-overlay/)
 
-### Host Networking
+### 2. Host Networking
 
 If you use the host network mode for a container, that container’s network stack is not isolated from the Docker host (the container shares the host’s networking namespace), and the container does not get its own IP-address allocated. For instance, if you run a container which binds to port 80 and you use host networking, the container’s application is available on port 80 on the host’s IP address.
 
 [Overlay Network Guide](https://docs.docker.com/network/network-tutorial-host/)
 
 
-### Macvlan Networking
+### 3. Macvlan Networking
 
 Some applications, especially legacy applications or applications which monitor network traffic, expect to be directly connected to the physical network. In this type of situation, you can use the macvlan network driver to assign a MAC address to each container’s virtual network interface, making it appear to be a physical network interface directly connected to the physical network. In this case, you need to designate a physical interface on your Docker host to use for the macvlan, as well as the subnet and gateway of the macvlan
 
 [Overlay Network Guide](https://docs.docker.com/network/network-tutorial-macvlan/)
 
-### Bridge Network
+### 4. Bridge Network
 **Networking with standalone containers**
 * **Use the default bridge network** demonstrates how to use the default bridge network that Docker sets up for you automatically. This network is not the best choice for production systems.
 
@@ -503,7 +503,7 @@ KEYS *
 QUIT
 ```
 
-## 6. Share your images on Docker Hub
+# 9. Share your images on Docker Hub
 
 This step helps you in developing a containerized application is to share your images on a registry like Docker Hub, so they can be easily downloaded and run on any destination machine
 
@@ -532,7 +532,7 @@ You can pull using below command in any of your enviornment:
 
 
 
-## 7. Useful Commands
+## 10. Useful Commands
 
 interactive shell contianer using image
 ```
