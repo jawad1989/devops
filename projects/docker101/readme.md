@@ -40,11 +40,113 @@ docker ps
   54f4984ed6a8     hello-world     "/hello"     20 seconds ago     Exited (0) 19 seconds ago
 ```
 
+## Docker File 
+
+Docker builds images automatically by reading the instructions from a Dockerfile -- a text file that contains all commands, in order, needed to build a given image. A Dockerfile adheres to a specific format and set of instructions which you can find at Dockerfile reference.
+
+A Docker image consists of read-only layers each of which represents a Dockerfile instruction. The layers are stacked and each one is a delta of the changes from the previous layer. Consider this Dockerfile:
+
+```
+FROM ubuntu:18.04
+COPY . /app
+RUN make /app
+CMD python /app/app.py
+Each instruction creates one layer:
+```
+
+FROM creates a layer from the ubuntu:18.04 Docker image.
+COPY adds files from your Docker client’s current directory.
+RUN builds your application with make.
+CMD specifies what command to run within the container.
 ## Docker Hub and running Pre built images
 
 The best feature of docker is you can download and use 1000's of pre built images available to you with a single command e.g. wordrpress, ubuntu, jenkins, node.js etc.
 we will use some of the images and run them to get you started:
 
+
+### Docker Multi Stage Builds
+
+With multi-stage builds, you use multiple FROM statements in your Dockerfile. Each FROM instruction can use a different base, and each of them begins a new stage of the build. You can selectively copy artifacts from one stage to another, leaving behind everything you don’t want in the final image. To show how this works, let’s adapt the Dockerfile from the previous section to use multi-stage builds
+#### 1. Example two Mvn
+[MVN example Multi Stage Build](https://www.youtube.com/watch?v=U9p8zrYxsZw&list=PL8byALqxKKoK8Yi8lrC9J15MJ-Pye3tMb&index=8&t=0s)
+[Another Example](https://www.youtube.com/watch?v=gdoXtFpXvik&list=PL8byALqxKKoK8Yi8lrC9J15MJ-Pye3tMb&index=3&t=0s)
+#### 2. Example two Go Lang
+`Dockerfile:`
+```
+FROM golang:alpine
+
+WORKDIR /go/src/app
+
+COPY main.go .
+
+RUN go build -o webserver .
+
+CMd ["./webserver"]
+```
+
+`main.go file:`
+
+```
+package main
+
+import (
+    "fmt"
+    "log"
+    "net/http"
+)
+
+func handler (w http.ResponseWriter, r *http.Request){
+    fmt.Fprintf(w, "Hellow from webserver")
+}
+
+func main(){
+	http.HandleFunc("/", handler)
+	log.Fatal(http.ListenAndServe("0.0.0.0:8080", nil))
+}
+```
+Build the Docker file, you will see your image `webserver` to be around `370MB` which is huge:
+
+```
+docker build -t webserver .
+```
+
+run the container 
+```
+docker run -p "8080:8080" webserver 
+```
+
+Now using multi stage build we will try and reduce the size, DockerCompose
+
+```
+
+FROM golang:alpine AS builder
+
+WORKDIR /go/src/app
+COPY main.go .
+
+RUN go build -o webserver .
+
+FROM alpine
+WORKDIR /app
+COPY --from=builder /go/src/app /app
+CMD ["./webserver"]
+```
+
+build and run the container
+
+```
+docker build -t webserver .
+docker run -p "8080:8080" webserver
+```
+
+you can see the image size reduced to `13MB`
+
+```
+docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+webserver           latest              e5d26b3f6a60        53 seconds ago      13.1MB
+<none>              <none>              c81abb7b536c        56 seconds ago      377MB
+```
 ### 1. Running HTTPD Server
 
 ```
@@ -449,7 +551,17 @@ docker image history --no-trunc image_name > image_history
 
 Remove all containers
 ```
-docker rm –f $(docker ps -aq)
+docker rm -f $(docker ps -aq)
+```
+
+Remove all images
+```
+docker rmi $(docker images -q)
+```
+
+Stop all containers
+```
+docker stop $(docker ps -aq)
 ```
 
 remove volume
