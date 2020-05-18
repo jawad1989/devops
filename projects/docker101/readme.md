@@ -25,8 +25,8 @@
 	* [Host Networking](#2-host-networking)
 	* [Macvlan Networking](#3-macvlan-networking)
 	* [Bridge Networking](#4-bridge-network)
-		* Use default Bridge Network
-		* Use user-defined Bridge Network
+		* [se default Bridge Network](#use-the-default-bridge-network)
+		* [Use user-defined Bridge Network](#use-user-defined-bridge-networks)
 		* [Communicating between containers using Links](#communicating-between-containers-using-links)
 
 9. [Sharing Images on Docker Hub](#9-share-your-images-on-docker-hub)
