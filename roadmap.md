@@ -31,5 +31,5 @@ https://www.youtube.com/watch?v=8C_SCDbUJTg&t=82s
 https://www.udemy.com/course/aws-certified-cloud-practitioner-new/
 https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c02/
 
-# Python - Boto Library
+# Python - basics - Optional
 https://github.com/jawad1505/Python
